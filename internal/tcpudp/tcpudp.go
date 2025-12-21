@@ -1,17 +1,15 @@
 package tcpudp
 
 import (
-	"fmt"
 	"gstat/internal/protocol"
 	"net"
 	"time"
 )
 
-func Check(prot protocol.Protocol, host, port string) protocol.Result {
-	target := fmt.Sprintf("%s:%s", host, port)
+func Check(prot protocol.Protocol, target string) protocol.Result {
 	res := protocol.Result{
 		Target:   target,
-		Protocol: protocol.HTTP,
+		Protocol: prot,
 	}
 
 	timeout := 5 * time.Second
