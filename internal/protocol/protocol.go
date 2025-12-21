@@ -1,5 +1,7 @@
 package protocol
 
+import "fmt"
+
 type Protocol string
 
 const (
@@ -13,4 +15,11 @@ type Result struct {
 	Protocol  Protocol
 	Reachable bool
 	Message   string
+}
+
+func (result Result) String() string {
+	return fmt.Sprintf(`Target: %s
+Protocol: %s
+Reachable: %v
+Message: %s`, result.Target, result.Protocol, result.Reachable, result.Message)
 }

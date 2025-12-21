@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gstat/internal/http"
 	"gstat/internal/protocol"
+	"gstat/internal/storage"
 	"gstat/internal/tcpudp"
 	"os"
 )
@@ -18,6 +19,8 @@ Usage:
 }
 
 func main() {
+	storage.CreateHistoryDirectory()
+
 	if len(os.Args) < 2 {
 		printCommandsHelp()
 		os.Exit(1)
@@ -44,6 +47,8 @@ func main() {
 		default:
 			res = tcpudp.Check(targetProtocol, target)
 		}
+
+		storage.Save(res)
 
 		fmt.Println("Result:", res)
 		os.Exit(0)
