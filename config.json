@@ -1,0 +1,23 @@
+{
+  "historyDirectory": "history",
+  "interval": {
+    "seconds": 1,
+    "targets": [
+      {
+        "protocol": "http",
+        "target": "https://volkman.cz",
+        "reachable": true
+      },
+      {
+        "protocol": "tcp",
+        "target": "s2.wrapuj.to:37002",
+        "reachable": true
+      },
+      {
+        "protocol": "http",
+        "target": "https://volkman.wtf",
+        "reachable": false
+      }
+    ]
+  }
+}

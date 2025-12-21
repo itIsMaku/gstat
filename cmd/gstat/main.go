@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"gstat/internal/configuration"
 	"gstat/internal/http"
 	"gstat/internal/protocol"
 	"gstat/internal/storage"
@@ -9,7 +10,7 @@ import (
 	"os"
 )
 
-const HISTORY_DIR = "history"
+const ConfigFile = "config.json"
 
 func printCommandsHelp() {
 	fmt.Println(`gstat - simple CLI tool to learn Go
@@ -21,7 +22,23 @@ Usage:
 }
 
 func main() {
-	storage.CreateHistoryDirectory(HISTORY_DIR)
+	err := configuration.CreateConfig(ConfigFile)
+	if err != nil {
+		fmt.Println("Error creating configuration:", err)
+		os.Exit(1)
+		return
+	}
+
+	config, err := configuration.LoadConfig(ConfigFile)
+	if err != nil {
+		fmt.Println("Error loading configuration:", err)
+		os.Exit(1)
+		return
+	}
+
+	historyDir := config.HistoryDir
+
+	storage.CreateHistoryDirectory(historyDir)
 
 	if len(os.Args) < 2 {
 		printCommandsHelp()
@@ -50,12 +67,12 @@ func main() {
 			res = tcpudp.Check(targetProtocol, target)
 		}
 
-		storage.Save(HISTORY_DIR, res)
+		storage.Save(historyDir, res)
 
 		fmt.Println("Result:", res)
 		os.Exit(0)
 	case "history":
-		storage.Read(HISTORY_DIR)
+		storage.Read(historyDir)
 	default:
 		fmt.Println("Unknown command!", os.Args[1:])
 		printCommandsHelp()
