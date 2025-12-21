@@ -9,6 +9,8 @@ import (
 	"os"
 )
 
+const HISTORY_DIR = "history"
+
 func printCommandsHelp() {
 	fmt.Println(`gstat - simple CLI tool to learn Go
 			
@@ -19,7 +21,7 @@ Usage:
 }
 
 func main() {
-	storage.CreateHistoryDirectory()
+	storage.CreateHistoryDirectory(HISTORY_DIR)
 
 	if len(os.Args) < 2 {
 		printCommandsHelp()
@@ -48,17 +50,15 @@ func main() {
 			res = tcpudp.Check(targetProtocol, target)
 		}
 
-		storage.Save(res)
+		storage.Save(HISTORY_DIR, res)
 
 		fmt.Println("Result:", res)
 		os.Exit(0)
-		return
 	case "history":
-
+		storage.Read(HISTORY_DIR)
 	default:
 		fmt.Println("Unknown command!", os.Args[1:])
 		printCommandsHelp()
 		os.Exit(1)
-		return
 	}
 }

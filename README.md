@@ -8,11 +8,11 @@
   - [x] url
   - [x] tcp
   - [x] udp
-- [ ] ukladani souboru
+- [x] ukladani souboru
 - [ ] periodic checkovani 
   - nacte to soubor s nastavenim
   - bude to opakovane kontrolovat targety 
 
 
 - `gstat check <protocol> <url/ip:port>` - provede check pod protokolem na url/ip:port
-- `gstat history` - zobrazi historii pingovani z jsonu
+- `gstat history` - zobrazi historii pingovani
