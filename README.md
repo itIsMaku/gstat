@@ -1,18 +1,7 @@
 # gstat
 
-## TODO
+## Commands
 
-- [x] struktura souboru
-- [x] jednoduchy CLI test s os packagem
-- [x] pingovani
-  - [x] url
-  - [x] tcp
-  - [x] udp
-- [x] ukladani souboru
-- [ ] periodic checkovani 
-  - nacte to soubor s nastavenim
-  - bude to opakovane kontrolovat targety 
-
-
-- `gstat check <protocol> <url/ip:port>` - provede check pod protokolem na url/ip:port
-- `gstat history` - zobrazi historii pingovani
+- `gstat check <http/tcp/udp> <url/host:port>`: Check the status of a given HTTP, TCP, or UDP service.
+- `gstat history`: View the history of manual checks performed.
+- `gstat interval`: Start automatic interval checks for configured services, logging results to a database and provides HTTP API.
