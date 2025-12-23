@@ -6,6 +6,7 @@ import (
 )
 
 type Config struct {
+	Database   Database       `json:"database"`
 	HistoryDir string         `json:"historyDirectory"`
 	Interval   IntervalConfig `json:"interval"`
 }
@@ -21,8 +22,25 @@ type Target struct {
 	Reachable bool   `json:"reachable"`
 }
 
+type Database struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	User     string `json:"user"`
+	Password string `json:"password"`
+	Name     string `json:"dbname"`
+	Ssl      bool   `json:"ssl"`
+}
+
 func CreateConfig(fileName string) error {
 	defaultConfig := Config{
+		Database: Database{
+			Host:     "localhost",
+			Port:     5432,
+			User:     "gstat_user",
+			Password: "gstat_password",
+			Name:     "gstat_db",
+			Ssl:      false,
+		},
 		HistoryDir: "history",
 		Interval: IntervalConfig{
 			Seconds: 60,

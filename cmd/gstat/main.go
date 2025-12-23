@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"gstat/internal/configuration"
+	"gstat/internal/database"
 	"gstat/internal/http"
+	"gstat/internal/interval"
 	"gstat/internal/protocol"
 	"gstat/internal/storage"
 	"gstat/internal/tcpudp"
@@ -73,6 +76,32 @@ func main() {
 		os.Exit(0)
 	case "history":
 		storage.Read(historyDir)
+	case "interval":
+		fmt.Println("Starting interval checks...")
+
+		db, err := database.Open(config.Database)
+		if err != nil {
+			fmt.Println("Error opening database:", err)
+			os.Exit(1)
+		}
+
+		defer func(db *sql.DB) {
+			err := database.Close(db)
+			if err != nil {
+				fmt.Println("Error closing database:", err)
+				os.Exit(1)
+			}
+		}(db)
+
+		fmt.Println("Successfully connected to the database.")
+
+		err = database.EnsureTables(db)
+		if err != nil {
+			fmt.Println("Error ensuring database tables:", err)
+			os.Exit(1)
+		}
+
+		go interval.StartInterval(config.Interval, db)
 	default:
 		fmt.Println("Unknown command!", os.Args[1:])
 		printCommandsHelp()

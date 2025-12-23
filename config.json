@@ -1,22 +1,25 @@
 {
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "user": "gstat",
+    "password": "gstat",
+    "dbname": "gstat",
+    "ssl": false
+  },
   "historyDirectory": "history",
   "interval": {
-    "seconds": 1,
+    "seconds": 60,
     "targets": [
       {
-        "protocol": "http",
-        "target": "https://volkman.cz",
-        "reachable": true
-      },
-      {
         "protocol": "tcp",
-        "target": "s2.wrapuj.to:37002",
+        "target": "example.com:80",
         "reachable": true
       },
       {
         "protocol": "http",
-        "target": "https://volkman.wtf",
-        "reachable": false
+        "target": "https://google.com",
+        "reachable": true
       }
     ]
   }
