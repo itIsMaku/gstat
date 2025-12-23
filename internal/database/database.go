@@ -24,6 +24,15 @@ CREATE TABLE IF NOT EXISTS result_history (
 );
 `
 
+type ResultHistory struct {
+	ID        int64
+	Target    string
+	Protocol  string
+	Reachable bool
+	Message   string
+	CreatedAt time.Time
+}
+
 func Open(database configuration.Database) (*sql.DB, error) {
 	connectionQuery := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
@@ -71,4 +80,27 @@ func InsertResult(db *sql.DB, result protocol.Result, time time.Time) error {
 		time,
 	)
 	return err
+}
+
+func GetResultsBefore(db *sql.DB) ([]ResultHistory, error) {
+	rows, err := db.Query(
+		`SELECT id, target, protocol, reachable, message, created_at FROM result_history`,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var results []ResultHistory
+	for rows.Next() {
+		var res ResultHistory
+		err := rows.Scan(&res.ID, &res.Target, &res.Protocol, &res.Reachable, &res.Message, &res.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, res)
+	}
+	return results, nil
 }

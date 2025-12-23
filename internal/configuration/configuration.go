@@ -9,6 +9,7 @@ type Config struct {
 	Database   Database       `json:"database"`
 	HistoryDir string         `json:"historyDirectory"`
 	Interval   IntervalConfig `json:"interval"`
+	Http       Http           `json:"http"`
 }
 
 type IntervalConfig struct {
@@ -31,6 +32,10 @@ type Database struct {
 	Ssl      bool   `json:"ssl"`
 }
 
+type Http struct {
+	Port int `json:"port"`
+}
+
 func CreateConfig(fileName string) error {
 	defaultConfig := Config{
 		Database: Database{
@@ -40,6 +45,9 @@ func CreateConfig(fileName string) error {
 			Password: "gstat_password",
 			Name:     "gstat_db",
 			Ssl:      false,
+		},
+		Http: Http{
+			Port: 8080,
 		},
 		HistoryDir: "history",
 		Interval: IntervalConfig{

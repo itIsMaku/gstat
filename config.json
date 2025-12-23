@@ -7,6 +7,9 @@
     "dbname": "gstat",
     "ssl": false
   },
+  "http": {
+    "port": 8080
+  },
   "historyDirectory": "history",
   "interval": {
     "seconds": 60,

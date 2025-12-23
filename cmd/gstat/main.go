@@ -6,6 +6,7 @@ import (
 	"gstat/internal/configuration"
 	"gstat/internal/database"
 	"gstat/internal/http"
+	"gstat/internal/httpserver"
 	"gstat/internal/interval"
 	"gstat/internal/protocol"
 	"gstat/internal/storage"
@@ -102,6 +103,12 @@ func main() {
 		}
 
 		go interval.StartInterval(config.Interval, db)
+
+		err = httpserver.Start(config.Http, db)
+		if err != nil {
+			fmt.Println("Error in HTTP server:", err)
+			os.Exit(1)
+		}
 	default:
 		fmt.Println("Unknown command!", os.Args[1:])
 		printCommandsHelp()
